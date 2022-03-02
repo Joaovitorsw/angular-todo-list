@@ -7,17 +7,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { AuthRoutingModule } from './auth-routing.module';
-import { AuthComponent } from './auth.component';
-import { SignInPage } from './pages/sign-in/sign-in.page';
-import { SignUpPage } from './pages/sign-up/sign-up.page';
+import { HomeRoutingModule } from './home-routing.module';
+import { HomePage } from './pages/home/home.page';
 
 @NgModule({
-  declarations: [AuthComponent, SignUpPage, SignInPage],
+  declarations: [HomePage],
   imports: [
     MatSelectModule,
     ReactiveFormsModule,
-    AuthRoutingModule,
+    HomeRoutingModule,
     MatFormFieldModule,
     MatCardModule,
     MatButtonModule,
@@ -26,4 +24,4 @@ import { SignUpPage } from './pages/sign-up/sign-up.page';
     MatIconModule,
   ],
 })
-export class AuthDomainModule {}
+export class HomeDomainModule {}
