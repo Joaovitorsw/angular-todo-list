@@ -1,0 +1,47 @@
+<div class="sing-up">
+  <form>
+    <mat-form-field appearance="outline">
+      <mat-icon matPrefix> email </mat-icon>
+      <input matInput type="text" placeholder="Email" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-icon matPrefix> key </mat-icon>
+      <input
+        matInput
+        type="password"
+        placeholder="Password"
+        autocomplete="off"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-icon matPrefix> key </mat-icon>
+      <input
+        matInput
+        type="password"
+        placeholder="Confirm password"
+        autocomplete="off"
+      />
+    </mat-form-field>
+  </form>
+
+  <button mat-stroked-button color="primary">Register</button>
+  <button routerLink="/auth/sign-in" mat-stroked-button color="accent">
+    Go to Login
+  </button>
+  <div class="social-media">
+    <img
+      src="https://img.icons8.com/color/344/google-logo.png"
+      alt="google-logo"
+    />
+    <img
+      src="https://img.icons8.com/fluency/344/facebook-new.png"
+      alt="facebook-logo"
+    />
+    <img
+      src="https://img.icons8.com/ios-glyphs/344/mac-os.png"
+      alt="apple-logo"
+    />
+  </div>
+</div>
