@@ -11,14 +11,13 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent implements OnInit {
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.screenWidth = window.innerWidth;
+  }
   public screenWidth: number;
 
   ngOnInit() {
-    this.screenWidth = window.innerWidth;
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
     this.screenWidth = window.innerWidth;
   }
 }
