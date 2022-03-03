@@ -5,30 +5,33 @@ import {
   signInWithEmailAndPassword,
   UserCredential,
 } from '@angular/fire/auth';
+import { Storage } from '@angular/fire/storage';
 import { HotToastService } from '@ngneat/hot-toast';
 import { FirebaseError } from 'firebase/app';
 import {
   FacebookAuthProvider,
   GoogleAuthProvider,
-  onAuthStateChanged,
   signInWithPopup,
+  updateProfile,
 } from 'firebase/auth';
-import { catchError, defer, Observable, Subject, tap } from 'rxjs';
+import {
+  getDownloadURL,
+  ref,
+  StorageReference,
+  uploadBytes,
+} from 'firebase/storage';
+import { catchError, defer, Observable, switchMap, tap } from 'rxjs';
 import { FIREBASE_ERROR_MENSAGENS } from './firebase.service.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
-  hasUser$ = new Subject<boolean>();
-
-  constructor(private auth: Auth, private toast: HotToastService) {
-    console.log('FirebaseService.constructor()');
-    onAuthStateChanged(this.auth, (user) => {
-      console.log(user);
-      this.hasUser$.next(!!user);
-    });
-  }
+  constructor(
+    private auth: Auth,
+    private storage: Storage,
+    private toast: HotToastService
+  ) {}
 
   createUserWithEmailAndPassword(
     email: string,
@@ -102,6 +105,77 @@ export class FirebaseService {
       catchError((error: FirebaseError) => {
         this.toast.error(FIREBASE_ERROR_MENSAGENS[error.code]);
         throw error.code;
+      })
+    );
+
+    return observable$;
+  }
+
+  registerUser(email: string, password: string, name: string, file: File) {
+    return this.createUserWithEmailAndPassword(email, password).pipe(
+      switchMap(() => {
+        return this.uploadFile(file).pipe(
+          switchMap((uploadTaskSnapshot) => {
+            return this.updateProfile({
+              displayName: name,
+              photoURL: uploadTaskSnapshot,
+            });
+          })
+        );
+      })
+    );
+  }
+  updateProfile(user: {
+    displayName?: string | null;
+    photoURL?: string | null;
+  }) {
+    const observable$ = defer(() => {
+      if (!this.auth.currentUser) throw Error('Usuário não está logado.');
+      return updateProfile(this.auth.currentUser, user);
+    });
+
+    return observable$;
+  }
+
+  uploadFile(file: File) {
+    if (!this.auth.currentUser) throw Error('Usuário não está logado.');
+
+    const urlRef = ref(
+      this.storage,
+      `users/${this.auth.currentUser.uid}/profile.jpg`
+    );
+
+    return this.uploadBytes(urlRef, file).pipe(
+      switchMap((url) => {
+        return this.getDownloadURL(url.ref);
+      })
+    );
+  }
+
+  uploadBytes(storage: StorageReference, file: File) {
+    const observable$ = defer(() => {
+      if (!this.auth.currentUser) throw Error('Usuário não está logado.');
+      return uploadBytes(storage, file);
+    });
+
+    return observable$;
+  }
+
+  getDownloadURL(storage: StorageReference) {
+    const observable$ = defer(() => {
+      if (!this.auth.currentUser) throw Error('Usuário não está logado.');
+      return getDownloadURL(storage);
+    });
+
+    return observable$;
+  }
+
+  logoff() {
+    const observable$ = defer(() => {
+      return this.auth.signOut();
+    }).pipe(
+      tap(() => {
+        this.toast.success('Usuário deslogado com sucesso!');
       })
     );
 

@@ -5,4 +5,7 @@ export const FIREBASE_ERROR_MENSAGENS: { [key: string]: string } = {
   'auth/cancelled-popup-request': 'A solicitação de login foi cancelada.',
   'auth/account-exists-with-different-credential':
     'Já existe uma conta com este e-mail.',
+  'auth/user-not-found': 'Não foi possível encontrar este usuário.',
+  'auth/invalid-email': 'O e-mail informado é inválido.',
+  'auth/wrong-password': 'A senha informada é inválida.',
 };
