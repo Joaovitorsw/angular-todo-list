@@ -8,4 +8,7 @@ export const FIREBASE_ERROR_MENSAGENS: { [key: string]: string } = {
   'auth/user-not-found': 'Não foi possível encontrar este usuário.',
   'auth/invalid-email': 'O e-mail informado é inválido.',
   'auth/wrong-password': 'A senha informada é inválida.',
+  'auth/unauthorized-domain': 'O domínio do site não é autorizado.',
+  'auth/api-key-not-valid.-please-pass-a-valid-api-key.':
+    'A chave da API é inválida.',
 };
