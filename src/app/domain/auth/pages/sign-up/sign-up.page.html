@@ -1,8 +1,21 @@
 <div class="sing-up">
-  <form>
+  <form [formGroup]="singUpGroup">
+    <mat-form-field appearance="outline">
+      <mat-icon matPrefix> badge </mat-icon>
+      <input
+        matInput
+        type="text"
+        placeholder="Name"
+        autocomplete="off"
+        formControlName="name"
+      />
+      <mat-error tlShowError tlShowErrorControlName="name"></mat-error>
+    </mat-form-field>
+
     <mat-form-field appearance="outline">
       <mat-icon matPrefix> email </mat-icon>
-      <input matInput type="text" placeholder="Email" />
+      <input matInput type="text" placeholder="Email" formControlName="email" />
+      <mat-error tlShowError tlShowErrorControlName="email"></mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -12,7 +25,9 @@
         type="password"
         placeholder="Password"
         autocomplete="off"
+        formControlName="password"
       />
+      <mat-error tlShowError tlShowErrorControlName="password"></mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -22,11 +37,59 @@
         type="password"
         placeholder="Confirm password"
         autocomplete="off"
+        formControlName="confirmPassword"
       />
+      <mat-error
+        tlShowError
+        tlShowErrorControlName="confirmPassword"
+      ></mat-error>
     </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-icon matPrefix> cake </mat-icon>
+      <input
+        matInput
+        type="text"
+        placeholder="Birthday"
+        autocomplete="off"
+        formControlName="birthday"
+        [matDatepickerFilter]="availableDatesFn"
+        [matDatepicker]="picker"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker
+        #picker
+        startView="year"
+        [startAt]="START_DATE"
+      ></mat-datepicker>
+      <mat-error tlShowError tlShowErrorControlName="birthday"></mat-error>
+    </mat-form-field>
+
+    <div class="file-upload-container">
+      <h1><mat-icon matPrefix> portrait </mat-icon>Your profile Image</h1>
+      {{fileName || "No file uploaded yet."}}
+      <div class="file-upload">
+        <input
+          type="file"
+          (change)="onFileChange($event)"
+          #fileUpload
+          data-testid="input-file"
+        />
+        <button mat-mini-fab color="primary" (click)="fileUpload.click()">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+      </div>
+    </div>
   </form>
 
-  <button mat-stroked-button color="primary">Register</button>
+  <button
+    mat-stroked-button
+    color="primary"
+    [disabled]="singUpGroup.invalid || submit"
+    (click)="registerUser()"
+  >
+    Register
+  </button>
   <button routerLink="/auth/sign-in" mat-stroked-button color="accent">
     Go to Login
   </button>
