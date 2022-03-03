@@ -21,8 +21,11 @@ import {
   uploadBytes,
 } from 'firebase/storage';
 import { catchError, defer, Observable, switchMap, tap } from 'rxjs';
-import { FIREBASE_ERROR_MENSAGENS } from './firebase.service.models';
-
+import {
+  FirebaseThrowError,
+  FirebaseToastMessage,
+  FIREBASE_ERROR_MENSAGENS,
+} from './firebase.service.models';
 @Injectable({
   providedIn: 'root',
 })
@@ -41,10 +44,10 @@ export class FirebaseService {
       return createUserWithEmailAndPassword(this.auth, email, password);
     }).pipe(
       tap(() => {
-        this.toast.success('Usuário criado com sucesso!');
+        this.toast.success(FirebaseToastMessage.USER_CREATED);
       }),
       catchError((error: FirebaseError) => {
-        this.toast.error(FIREBASE_ERROR_MENSAGENS[error.code]);
+        this.toast.error(FIREBASE_ERROR_MENSAGENS[error.code] || error.code);
         throw error.code;
       })
     );
@@ -60,10 +63,10 @@ export class FirebaseService {
       return signInWithEmailAndPassword(this.auth, email, password);
     }).pipe(
       tap(() => {
-        this.toast.success('Usuário logado com sucesso!');
+        this.toast.success(FirebaseToastMessage.USER_LOGGED_IN);
       }),
       catchError((error: FirebaseError) => {
-        this.toast.error(FIREBASE_ERROR_MENSAGENS[error.code]);
+        this.toast.error(FIREBASE_ERROR_MENSAGENS[error.code] || error.code);
         throw error.code;
       })
     );
@@ -76,7 +79,7 @@ export class FirebaseService {
       this.auth.currentUser?.providerData[0].providerId === 'facebook.com';
 
     if (hasFacebookAccount)
-      throw this.toast.error('Você já está logado com o Facebook.');
+      throw this.toast.error(FirebaseThrowError.USER_HAS_FACEBOOK_LOGIN);
 
     const provider = new GoogleAuthProvider();
     provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
@@ -100,10 +103,10 @@ export class FirebaseService {
       return signInWithPopup(this.auth, provider);
     }).pipe(
       tap((result) => {
-        this.toast.success('Usuário logado com sucesso!');
+        this.toast.success(FirebaseToastMessage.USER_LOGGED_IN);
       }),
       catchError((error: FirebaseError) => {
-        this.toast.error(FIREBASE_ERROR_MENSAGENS[error.code]);
+        this.toast.error(FIREBASE_ERROR_MENSAGENS[error.code] || error.code);
         throw error.code;
       })
     );
@@ -130,7 +133,8 @@ export class FirebaseService {
     photoURL?: string | null;
   }) {
     const observable$ = defer(() => {
-      if (!this.auth.currentUser) throw Error('Usuário não está logado.');
+      if (!this.auth.currentUser)
+        throw Error(FirebaseThrowError.USER_IS_NOT_LOGGED);
       return updateProfile(this.auth.currentUser, user);
     });
 
@@ -138,7 +142,8 @@ export class FirebaseService {
   }
 
   uploadFile(file: File) {
-    if (!this.auth.currentUser) throw Error('Usuário não está logado.');
+    if (!this.auth.currentUser)
+      throw Error(FirebaseThrowError.USER_IS_NOT_LOGGED);
 
     const urlRef = ref(
       this.storage,
@@ -154,7 +159,8 @@ export class FirebaseService {
 
   uploadBytes(storage: StorageReference, file: File) {
     const observable$ = defer(() => {
-      if (!this.auth.currentUser) throw Error('Usuário não está logado.');
+      if (!this.auth.currentUser)
+        throw Error(FirebaseThrowError.USER_IS_NOT_LOGGED);
       return uploadBytes(storage, file);
     });
 
@@ -163,7 +169,8 @@ export class FirebaseService {
 
   getDownloadURL(storage: StorageReference) {
     const observable$ = defer(() => {
-      if (!this.auth.currentUser) throw Error('Usuário não está logado.');
+      if (!this.auth.currentUser)
+        throw Error(FirebaseThrowError.USER_IS_NOT_LOGGED);
       return getDownloadURL(storage);
     });
 
@@ -175,7 +182,7 @@ export class FirebaseService {
       return this.auth.signOut();
     }).pipe(
       tap(() => {
-        this.toast.success('Usuário deslogado com sucesso!');
+        this.toast.success(FirebaseToastMessage.USER_LOGGED_OUT);
       })
     );
 

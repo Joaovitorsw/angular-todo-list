@@ -12,3 +12,16 @@ export const FIREBASE_ERROR_MENSAGENS: { [key: string]: string } = {
   'auth/api-key-not-valid.-please-pass-a-valid-api-key.':
     'A chave da API é inválida.',
 };
+
+export enum FirebaseThrowError {
+  USER_IS_NOT_LOGGED = 'Usuário não está logado.',
+  USER_HAS_FACEBOOK_LOGIN = 'Usuário já está logado com o Facebook.',
+}
+
+export enum FirebaseToastMessage {
+  USER_CREATED = 'Usuário criado com sucesso!',
+  USER_UPDATED = 'Usuário atualizado com sucesso!',
+  USER_DELETED = 'Usuário excluído com sucesso!',
+  USER_LOGGED_IN = 'Usuário logado com sucesso!',
+  USER_LOGGED_OUT = 'Usuário deslogado com sucesso!',
+}
