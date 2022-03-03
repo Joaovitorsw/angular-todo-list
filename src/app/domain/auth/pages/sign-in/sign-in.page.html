@@ -1,8 +1,9 @@
 <div class="sing-in">
-  <form>
+  <form [formGroup]="singInGroup">
     <mat-form-field appearance="outline">
       <mat-icon matPrefix> email </mat-icon>
-      <input matInput placeholder="Email" />
+      <input matInput placeholder="Email" formControlName="email" />
+      <mat-error tlShowError tlShowErrorControlName="email"></mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -17,13 +18,22 @@
         matInput
         #passwordInput
         type="password"
+        formControlName="password"
         placeholder="Password"
         autocomplete="off"
       />
+      <mat-error tlShowError tlShowErrorControlName="password"></mat-error>
     </mat-form-field>
   </form>
 
-  <button mat-stroked-button color="primary">Log in</button>
+  <button
+    mat-stroked-button
+    color="primary"
+    [disabled]="singInGroup.invalid"
+    (click)="singInWithEmailAndPassword()"
+  >
+    Log in
+  </button>
   <button routerLink="/auth/sign-up" mat-stroked-button color="accent">
     Register
   </button>
