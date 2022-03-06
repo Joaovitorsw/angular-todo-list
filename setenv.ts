@@ -20,6 +20,7 @@ const environmentFileContent = `export const environment = {
     authDomain:"${process.env.FIREBASE_AUTH_DOMAIN}",
     messagingSenderId:"${process.env.FIREBASE_MESSAGING_SENDER_ID}",
   },
+  weather_api: "${process.env.WEATHER_API}",
   production: ${isProduction}
 };
 `;
