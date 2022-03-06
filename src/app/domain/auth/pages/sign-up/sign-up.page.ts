@@ -77,20 +77,16 @@ export class SignUpPage implements OnInit {
   }
 
   onFileChange(event: Event) {
-    const reader = new FileReader();
     const target = event.target as HTMLInputElement;
     const files: FileList = target.files as FileList;
 
     if (files && files.length) {
       const file = files[0];
       this.fileName = file.name;
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.singUpGroup.patchValue({
-          file: reader.result,
-        });
-        this.changeDetector.markForCheck();
-      };
+      this.singUpGroup.patchValue({
+        file: file,
+      });
+      this.changeDetector.markForCheck();
     }
   }
 
