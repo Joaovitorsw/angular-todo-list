@@ -1,0 +1,37 @@
+<mat-card (click)="taskMenu.toggle()">
+  <div class="icon-container">
+    <div class="icon">
+      <mat-icon>{{ task.category.icon }}</mat-icon>
+    </div>
+  </div>
+  <mat-drawer-container autosize>
+    <div class="task-container">
+      <div class="titles">
+        <mat-card-title>{{ task.title }}</mat-card-title>
+        <mat-card-title>{{ task.time }}</mat-card-title>
+      </div>
+      <div class="subtitle">
+        <mat-card-subtitle>{{ task.description }}</mat-card-subtitle>
+      </div>
+      <div class="category" [style]="'background-color:' + task.category.color">
+        <div class="dot"></div>
+        <h1>{{ task.category.icon | titlecase }}</h1>
+      </div>
+    </div>
+    <mat-drawer #taskMenu mode="side" position="end">
+      <!-- mark as done  -->
+      <div class="drawer">
+        <button mat-raised-button color="primary" *ngIf="!isDone">
+          <mat-icon>done</mat-icon>
+        </button>
+        <button mat-raised-button color="primary" *ngIf="!isDone">
+          <mat-icon>notifications</mat-icon>
+        </button>
+        <!-- delete task -->
+        <button mat-raised-button color="primary">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-drawer>
+  </mat-drawer-container>
+</mat-card>
