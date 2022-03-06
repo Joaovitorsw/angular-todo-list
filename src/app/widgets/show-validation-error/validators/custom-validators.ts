@@ -3,7 +3,7 @@ import { eValidationErrorKeys } from '../validations';
 
 export class CustomValidators {
   static email(control: AbstractControl) {
-    const emailPattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i;
+    const emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     const isValid = emailPattern.test(control.value);
 
     if (!isValid)
