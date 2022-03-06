@@ -1,3 +1,212 @@
+@import "variables";
+
 :host {
+  height: 100%;
   display: block;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 50px;
+  box-shadow: 0 1px 8px -3px rgba(0, 0, 0, 0.1);
+  color: #09f;
+  font-weight: 500;
+  padding: $padding;
+
+  ::ng-deep .mat-drawer-inner-container {
+    padding: 10px !important;
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $padding;
+
+  & > h1 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+mat-icon {
+  color: #09f;
+}
+
+mat-drawer-container {
+  width: 100%;
+  height: 100%;
+}
+mat-drawer {
+  width: 80%;
+}
+
+.profile {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h1 {
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 23px;
+    margin-bottom: 10px;
+  }
+  img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #09f;
+  }
+
+  button {
+    mat-icon {
+      font-size: 20px;
+    }
+  }
+}
+
+mat-nav-list {
+  mat-icon {
+    font-size: 20px;
+    margin-right: 10px;
+  }
+}
+
+.search {
+  width: 100%;
+  height: 70px;
+  margin-bottom: 20px;
+
+  mat-form-field {
+    width: 100%;
+    mat-icon {
+      position: relative;
+
+      top: -1.5px;
+      text-align: center;
+      font-size: 18px;
+      margin-right: 5px;
+    }
+  }
+
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    background-color: white !important;
+  }
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-label {
+  top: 2rem !important;
+}
+::ng-deep
+  .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float
+  .mat-form-field-label {
+  transform: translateY(-1.85rem) scale(0.75) !important;
+}
+nav {
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  .categories {
+    overflow: auto;
+    min-height: 45px;
+    white-space: nowrap;
+  }
+  mat-button-toggle {
+    height: 98%;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    margin: 0 4px;
+  }
+}
+
+.current-temp {
+  display: flex;
+  align-items: center;
+  .current-temp-condition {
+    display: flex;
+
+    .condition-icon {
+      position: relative;
+      right: 15px;
+    }
+    h1 {
+      position: relative;
+      right: 15px;
+      display: flex;
+      align-items: center;
+      font-size: 40px;
+      span {
+        font-weight: bold;
+        font-size: 20px;
+      }
+    }
+  }
+  .current-temp-text {
+    margin-left: 20px;
+    h1 {
+      font-size: 20px;
+      font-weight: 500;
+    }
+    h2 {
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.741);
+    }
+  }
+}
+
+.search {
+  margin-top: 20px;
+}
+.current-temp-details {
+  display: flex;
+  flex-flow: wrap;
+  & > * {
+    color: rgba(0, 0, 0, 0.54);
+    margin-right: 10px;
+    margin-top: 10px;
+  }
+}
+
+mat-card:first-child {
+  max-width: 350px;
+}
+button[mat-fab] {
+  background-color: #09f;
+  position: fixed;
+  z-index: 10;
+  bottom: 0;
+  right: 0;
+  margin: 15px;
+  mat-icon {
+    color: white;
+  }
+}
+
+.task-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  min-height: 150px;
+}
+
+.no-tasks {
+  margin-top: 20px !important;
 }
